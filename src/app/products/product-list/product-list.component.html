@@ -1,0 +1,23 @@
+<h1>{{'product list' | uppercase}}</h1>
+
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>product</th>
+            <th>quantity</th>
+            <th>price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products">
+            <td>                
+                <img src="{{product.image}}" width="80">
+            </td>
+            <td>{{product.name}}</td>
+            <td><button (click)="updateQuantity('add', product)">+</button>{{product.quantity}}<button (click)="updateQuantity('substract', product)">-</button></td>
+            <td>{{product.price | currency:'CZK' }}</td>
+        </tr>
+    </tbody>
+</table>
