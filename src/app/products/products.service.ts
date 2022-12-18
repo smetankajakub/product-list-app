@@ -40,6 +40,7 @@ export class ProductsService {
   updateQuantity(type: string, productId: number, products: Product[]): void {
     const index = products.findIndex((p) => p.id === productId);
     let product = {...products[index]};
+    let wasRemoved = false;
 		switch (type) {
 			case 'add':
 				product.quantity++;
@@ -47,11 +48,14 @@ export class ProductsService {
 			case 'substract':
 				product.quantity--;
 				if (product.quantity === 0) {
+          wasRemoved = true;
 					products.splice(index, 1);
 				}
 				break;
 		}
-    products[index] = product;
+    if(!wasRemoved){
+      products[index] = product;
+    }
 		let totalPrice = this.recalculateSum(products);
 		this.store.dispatch(
 			ProductActions.updateProductsAndTotalPrice({ products, totalPrice })
