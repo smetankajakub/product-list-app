@@ -30,48 +30,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
 		this.products$.unsubscribe();
 	}
 
-	updateQuantity(type: string, cloned: Product): void {
-		let product: Product = { ...cloned };
-		let products = [...this.products];
-
-		const index = this.products.findIndex((p) => p.id === product.id);
-		switch (type) {
-			case 'add':
-				product.quantity++;
-				products[index] = product;
-				break;
-			case 'substract':
-				product.quantity--;
-				products[index] = product;
-				if (products[index].quantity === 0) {
-					products.splice(index, 1);
-				}
-				break;
-		}
-
-		let totalPrice = this.recalculateSum(products);
-		this.store.dispatch(
-			ProductActions.updateProductsAndTotalPrice({ products, totalPrice })
-		);
-	}
-
-	recalculateSum(products: Product[]): number {
-		let price = 0;
-		products.forEach((p) => {
-			price += p.price * p.quantity;
-		});
-		return price;
+	updateQuantity(type: string, productId: number): void {
+    let products = [...this.products];
+    this.productService.updateQuantity(type, productId, products);
 	}
 
   public deleteProduct(productId: number): void {
-    const index = this.products.findIndex(product => product.id === productId);
     let products = [...this.products];
-    products.splice(index, 1);
-
-    
-    let totalPrice = this.recalculateSum(products);
-    this.store.dispatch(
-			ProductActions.updateProductsAndTotalPrice({ products, totalPrice })
-		);
+    this.productService.deleteProduct(productId, products);
   }
 }

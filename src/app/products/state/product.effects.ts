@@ -19,9 +19,7 @@ export class ProductEffects {
 			mergeMap(() =>
 				this.productsService.getProducts().pipe(
 					map((products) => {
-                        console.log('in products')
                         let totalPrice = products.length > 0 ? products.map(p => p.price * p.quantity).reduce((prev, next) => prev + next) : 0;
-                        console.log('totalPrice: ', totalPrice)
                         return ProductActions.loadProductsSuccess({ products, totalPrice })
                     })
 				)

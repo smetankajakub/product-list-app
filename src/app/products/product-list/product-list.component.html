@@ -24,11 +24,11 @@
 					</td>
 					<td style="width: 20%">
 						<div class="btns">
-							<button (click)="updateQuantity('add', product)">
+							<button (click)="updateQuantity('add', product.id)">
 								<span>+</span>
 							</button>
 							<span>{{ product.quantity }}x</span>
-							<button (click)="updateQuantity('substract', product)">
+							<button (click)="updateQuantity('substract', product.id)">
 								<span>-</span>
 							</button>
 						</div>
