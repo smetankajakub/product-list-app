@@ -62,4 +62,16 @@ export class ProductListComponent implements OnInit, OnDestroy {
 		});
 		return price;
 	}
+
+  public deleteProduct(productId: number): void {
+    const index = this.products.findIndex(product => product.id === productId);
+    let products = [...this.products];
+    products.splice(index, 1);
+
+    
+    let totalPrice = this.recalculateSum(products);
+    this.store.dispatch(
+			ProductActions.updateProductsAndTotalPrice({ products, totalPrice })
+		);
+  }
 }

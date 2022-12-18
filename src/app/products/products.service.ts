@@ -23,6 +23,13 @@ export class ProductsService {
         price: 2099.99,
         image: "https://via.placeholder.com/150",
         quantity: 2
+      },
+      {
+        id: 3,
+        name: "Product with title case title ",
+        price: 0,
+        image: "https://via.placeholder.com/150",
+        quantity: 2
       }
     ]
     return of(products);

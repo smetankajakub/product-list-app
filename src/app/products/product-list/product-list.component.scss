@@ -1,0 +1,129 @@
+// price: #c32f47
+$red: #c32f47;
+$green: #58c0c6;
+$total-text: #5e6065;
+$title-text: #404759;
+$btns-backround: #f4f7f8;
+$border: #e5e8e9;
+$box-shadow-primary: 8px 9px 26px 6px#f4f7f8;
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+table {
+    width: 100%;
+    box-shadow: 8px 9px 26px 6px#f4f7f8;
+    border-collapse: $box-shadow-primary;
+    border-radius: 5px;
+}
+
+table tbody tr {
+    height: 140px;
+
+}
+
+tbody tr > td:nth-child(1) {
+    width: 10%; padding-left: 45px;
+}
+
+thead > tr > td:first-child {
+   text-align: left;
+   color: #404759;
+   padding: 45px;
+   color: #404759;
+   font-size: large;
+   font-weight: bolder;
+}
+
+.price{
+    text-align: right;
+    font-size: 30px;
+    font-weight: bold;
+    padding-right: 65px
+}
+
+.red {
+    color: $red;
+}
+
+.free {
+    color: $green
+}
+
+.product-title {
+    color: $title-text;
+    font-size: large;
+    font-weight: bolder;
+}
+
+.info-text-gray {
+    color: $total-text
+}
+
+.center {
+    text-align: center;
+}
+
+.wrapper {
+    width: 90%; margin:auto; padding: 65px;
+}
+
+.border-bottom {
+    border-bottom: 1px solid $border;
+}
+
+.columns {
+    text-align: left;
+    height: 50px;
+    th {
+        color: #8f93a0;
+        text-transform: uppercase;
+    }
+}
+
+.uppercase-title {
+    color: #8f93a0; text-transform: uppercase
+}
+
+.footer {
+    div {
+        text-align: right;
+        padding: 45px;
+        box-shadow: $box-shadow-primary;
+        
+        p {
+            font-size: 40px;
+            font-weight: bold;
+        }
+    }
+}
+
+.btns {
+	width: fit-content;
+	padding: 5px;
+	background-color: #f4f7f8;
+	border-radius: 5px;
+	button {
+        height: 60px;
+        width: 60px;
+        background-color: white;
+        color: #8f93a0;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    > span {
+        font-weight: 700;
+        color: #404759;
+        padding: 25px;
+        font-size: 20px;
+    }			
+}
+
+#main-title {
+    font-size: 30px;
+    text-transform: uppercase;
+}

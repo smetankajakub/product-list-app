@@ -1,40 +1,67 @@
-<h1>{{ 'product list' | uppercase }}</h1>
-
-<table>
-	<thead>
-		<tr>
-			<th></th>
-			<th>product</th>
-			<th>quantity</th>
-			<th>price</th>
-		</tr>
-	</thead>
-	<tbody>
-		<ng-container *ngIf="products.length > 0; else empty">
-			<tr *ngFor="let product of products">
-				<td>
-					<img src="{{ product.image }}" width="80" />
-				</td>
-				<td>{{ product.name }}</td>
-				<td>
-					<button (click)="updateQuantity('add', product)">+</button
-					>{{ product.quantity
-					}}<button (click)="updateQuantity('substract', product)">-</button>
-				</td>
-				<td>{{ product.price | currency : 'CZK' }}</td>
-			</tr>
-			<tr>
+<div class="wrapper">
+	<table>
+		<thead>
+			<tr class="border-bottom">
 				<td colspan="4">
-					<span *ngIf="totalPrice$ | async as totalPrice">{{ totalPrice }}</span>
+					<span id="main-title">Products list</span>
 				</td>
 			</tr>
-		</ng-container>
-        <ng-template #empty>
-            <tr>
-                <td colspan="4">
-                    No products to display
-                </td>
-            </tr>
-        </ng-template>
-	</tbody>
-</table>
+			<tr class="border-bottom" class="columns">
+				<th style="width: 10%"></th>
+				<th style="width: 45%">Product</th>
+				<th style="width: 20%">Quantity</th>
+				<th style="width: 25%">Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<ng-container *ngIf="products.length > 0; else empty">
+				<tr *ngFor="let product of products" class="border-bottom">
+					<td>
+						<img src="{{ product.image }}" width="80" />
+					</td>
+					<td style="width: 45%" class="product-title">
+						{{ product.name | titlecase }}
+					</td>
+					<td style="width: 20%">
+						<div class="btns">
+							<button (click)="updateQuantity('add', product)">
+								<span>+</span>
+							</button>
+							<span>{{ product.quantity }}x</span>
+							<button (click)="updateQuantity('substract', product)">
+								<span>-</span>
+							</button>
+						</div>
+					</td>
+					<td
+						style="width: 25%"
+						class="price"
+						[ngClass]="product.price > 0 ? 'red' : 'free'"
+					>
+						{{
+							product.price > 0 ? (product.price | currency : 'EUR') : 'FREE'
+						}}&nbsp;
+						<img
+							src="assets/img/trash.svg"
+							width="24"
+							(click)="deleteProduct(product.id)"
+						/>
+					</td>
+				</tr>
+			</ng-container>
+			<ng-template #empty>
+				<tr class="center">
+					<td colspan="4">No products to display</td>
+				</tr>
+			</ng-template>
+		</tbody>
+	</table>
+	<div class="footer">
+		<div>
+			<p *ngIf="totalPrice$ | async as totalPrice" class="red">
+				{{ totalPrice }} CZK
+			</p>
+			<span class="info-text-gray">Total price including VAT</span>
+		</div>
+	</div>
+</div>
