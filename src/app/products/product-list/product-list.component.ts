@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { Product } from '../models/product';
 import { ProductsService } from '../products.service';
-
+import * as ProductActions from '../state/product.actions';
+import { getProducts, getTotalPrice } from '../state/product.reducer';
 @Component({
 	selector: 'app-product-list',
 	templateUrl: './product-list.component.html',
@@ -10,48 +12,54 @@ import { ProductsService } from '../products.service';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
 	sub$: Subscription = new Subscription();
+	products$!: Subscription;
 	products: Product[] = [];
-  totalPrice: number = 0;
-  
-  constructor(private productService: ProductsService) {}
+	totalPrice$!: Observable<number>;
+
+	constructor(private store: Store, private productService: ProductsService) {}
 
 	ngOnInit(): void {
-		this.sub$ = this.productService.getProducts().subscribe((data) => {
-			this.products = data;
-      this.recalculateSum();
-    });
+		this.products$ = this.store.select(getProducts).subscribe((products) => {
+			this.products = products;
+		});
+		this.totalPrice$ = this.store.select(getTotalPrice);
+		this.store.dispatch(ProductActions.loadProducts());
 	}
 
-  ngOnDestroy(): void {
-      this.sub$.unsubscribe();
-  }
+	ngOnDestroy(): void {
+		this.products$.unsubscribe();
+	}
 
-	updateQuantity(type: string, product: Product): void {
-    const index = this.products.findIndex(i => i.id === product.id);
-    console.log(index);
-    console.log(this.products);
+	updateQuantity(type: string, cloned: Product): void {
+		let product: Product = { ...cloned };
+		let products = [...this.products];
+
+		const index = this.products.findIndex((p) => p.id === product.id);
 		switch (type) {
 			case 'add':
-				this.products[index].quantity = product.quantity + 1;
-        this.recalculateSum();
+				product.quantity++;
+				products[index] = product;
 				break;
 			case 'substract':
-        this.products[index].quantity = product.quantity - 1;
-        if (product.quantity === 0) {
-					const index = this.products.findIndex(i => i.id === product.id);
-          console.log(index);
-					this.products.splice(index, 1);
+				product.quantity--;
+				products[index] = product;
+				if (products[index].quantity === 0) {
+					products.splice(index, 1);
 				}
-        this.recalculateSum();
-        break;
+				break;
 		}
-    
+
+		let totalPrice = this.recalculateSum(products);
+		this.store.dispatch(
+			ProductActions.updateProductsAndTotalPrice({ products, totalPrice })
+		);
 	}
 
-  recalculateSum(): void {
-    console.log('recalculateSum');
-
-    this.totalPrice = this.products.length > 0 ? this.products.map(p => p.price).reduce((prev, next) => prev + next) : 0;
-    console.log(this.totalPrice);
-  };
+	recalculateSum(products: Product[]): number {
+		let price = 0;
+		products.forEach((p) => {
+			price += p.price * p.quantity;
+		});
+		return price;
+	}
 }

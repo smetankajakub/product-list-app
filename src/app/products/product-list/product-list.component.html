@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<td colspan="4">
-					<span>{{ totalPrice }}</span>
+					<span *ngIf="totalPrice$ | async as totalPrice">{{ totalPrice }}</span>
 				</td>
 			</tr>
 		</ng-container>

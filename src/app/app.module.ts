@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './products/product-list/product-list.component';
+import { productReducer } from './products/state/product.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { ProductEffects } from './products/state/product.effects';
 
 @NgModule({
   declarations: [
@@ -14,7 +18,13 @@ import { ProductListComponent } from './products/product-list/product-list.compo
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({})
+    StoreModule.forRoot({}),
+    StoreModule.forFeature('products', productReducer),
+    StoreDevtoolsModule.instrument({
+      name: 'Product List App',
+      maxAge: 25
+    }),
+    EffectsModule.forRoot([ProductEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]
