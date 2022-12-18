@@ -39,7 +39,7 @@
 						[ngClass]="product.price > 0 ? 'red' : 'free'"
 					>
 						{{
-							product.price > 0 ? (product.price | currency : 'EUR') : 'FREE'
+							product.price > 0 ? (product.price | currency : 'CZK') : 'FREE'
 						}}&nbsp;
 						<img
 							src="assets/img/trash.svg"
@@ -59,7 +59,7 @@
 	<div class="footer">
 		<div>
 			<p *ngIf="totalPrice$ | async as totalPrice" class="red">
-				{{ totalPrice }} CZK
+				{{ totalPrice | currency: 'CZK'  }}
 			</p>
 			<span class="info-text-gray">Total price including VAT</span>
 		</div>

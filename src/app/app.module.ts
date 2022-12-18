@@ -1,4 +1,6 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeCs from '@angular/common/locales/cs';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -9,6 +11,8 @@ import { ProductListComponent } from './products/product-list/product-list.compo
 import { productReducer } from './products/state/product.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { ProductEffects } from './products/state/product.effects';
+
+registerLocaleData(localeCs);
 
 @NgModule({
   declarations: [
@@ -26,7 +30,9 @@ import { ProductEffects } from './products/state/product.effects';
     }),
     EffectsModule.forRoot([ProductEffects])
   ],
-  providers: [],
+  providers: [{
+    provide: LOCALE_ID, useValue: 'cs-CZ'
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
